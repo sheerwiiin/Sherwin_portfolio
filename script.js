@@ -286,34 +286,34 @@ const uiuxCategories = {
   mobile: {
     label: 'Mobile App Design',
     images: [
-      { src: 'assets/Mobile/AVONIC (1).png', label: 'Avonic Mobile App Screen 1' },
-      { src: 'assets/Mobile/AVONIC (2).png', label: 'Avonic Mobile App Screen 2' },
-      { src: 'assets/Mobile/AVONIC (3).png', label: 'Avonic Mobile App Screen 3' },
-      { src: 'assets/Mobile/SPCC.png', label: 'SPCC Mobile App Interface' },
+      { src: 'assets/images/Mobile/AVONIC (1).png', label: 'Avonic Mobile App Screen 1' },
+      { src: 'assets/images/Mobile/AVONIC (2).png', label: 'Avonic Mobile App Screen 2' },
+      { src: 'assets/images/Mobile/AVONIC (3).png', label: 'Avonic Mobile App Screen 3' },
+      { src: 'assets/images/Mobile/SPCC.png', label: 'SPCC Mobile App Interface' },
     ],
   },
   web: {
     label: 'Web Interface Design',
     images: [
-      { src: 'assets/UI/Clo.png', label: 'Clo Web Platform UI' },
-      { src: 'assets/UI/WEB (1).png', label: 'Web Interface Mockup 1' },
-      { src: 'assets/UI/WEB (2).png', label: 'Web Interface Mockup 2' },
-      { src: 'assets/UI/WEB (3).png', label: 'Web Interface Mockup 3' },
+      { src: 'assets/images/UI/Greatest.png', label: 'Clo Web Platform UI' },
+      { src: 'assets/images/UI/WEB (1).png', label: 'Web Interface Mockup 1' },
+      { src: 'assets/images/UI/WEB (2).png', label: 'Web Interface Mockup 2' },
+      { src: 'assets/images/UI/WEB (3).png', label: 'Web Interface Mockup 3' },
     ],
   },
   dashboard: {
     label: 'Dashboard Design',
     images: [
-      { src: 'assets/Dashboard/DASHBOARD (1).png', label: 'Dashboard Overview Screen' },
-      { src: 'assets/Dashboard/DASHBOARD (2).png', label: 'Analytics & Graphs View' },
-      { src: 'assets/Dashboard/DASHBOARD (3).png', label: 'Data Reports View' },
+      { src: 'assets/images/Dashboard/DASHBOARD (1).png', label: 'Dashboard Overview Screen' },
+      { src: 'assets/images/Dashboard/DASHBOARD (2).png', label: 'Analytics & Graphs View' },
+      { src: 'assets/images/Dashboard/DASHBOARD (3).png', label: 'Data Reports View' },
     ],
   },
   redesign: {
     label: 'UI Redesign',
     images: [
-      { src: 'assets/Redesign/OLD.png', label: 'Before Redesign (Old Interface)' },
-      { src: 'assets/Redesign/NEW.png', label: 'After Redesign (New Modern Interface)' },
+      { src: 'assets/images/Redesign/OLD.png', label: 'Before Redesign (Old Interface)' },
+      { src: 'assets/images/Redesign/NEW.png', label: 'After Redesign (New Modern Interface)' },
     ],
   },
 };
@@ -335,7 +335,7 @@ const updateSlide = () => {
   if (!categoryData || !categoryData.images || categoryData.images.length === 0) return;
 
   const slide = categoryData.images[currentSlideIndex];
-  
+
   // Fade transition on image swap
   gallerySliderImg.style.opacity = '0';
   setTimeout(() => {
@@ -359,7 +359,7 @@ const updateSlide = () => {
 const openGallery = (category) => {
   currentCategory = category;
   currentSlideIndex = 0;
-  
+
   const categoryData = uiuxCategories[category];
   if (!categoryData) return;
 
@@ -371,7 +371,7 @@ const openGallery = (category) => {
 
   if (categoryData.images && categoryData.images.length > 0) {
     galleryMain.style.display = 'flex';
-    
+
     // Render Thumbnails list
     galleryThumbnails.innerHTML = '';
     categoryData.images.forEach((img, index) => {
@@ -547,10 +547,10 @@ const openVideoModal = (src, title, sub) => {
     // External iframe (YouTube, Facebook, etc.)
     videoIframeContainer.innerHTML = `<iframe src="${src}" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" title="${title || 'Video Player'}"></iframe>`;
   }
-  
+
   if (title) document.getElementById('videoModalTitle').textContent = title;
   if (sub) document.getElementById('videoModalSub').textContent = sub;
-  
+
   videoModal.classList.add('open');
   document.body.style.overflow = 'hidden';
 };
@@ -578,11 +578,11 @@ document.querySelectorAll('.multimedia-card[data-video-url]').forEach(card => {
 document.querySelectorAll('.multimedia-card video').forEach(video => {
   const card = video.closest('.multimedia-card');
   if (!card) return;
-  
+
   card.addEventListener('mouseenter', () => {
     video.play().catch(err => console.log('Autoplay preview blocked:', err));
   });
-  
+
   card.addEventListener('mouseleave', () => {
     video.pause();
     video.currentTime = 0;
@@ -600,11 +600,11 @@ document.addEventListener('keydown', e => {
     if (videoModal && videoModal.classList.contains('open')) closeVideoModal();
     if (uiuxGallery.classList.contains('open')) closeGallery();
   }
-  
+
   if (uiuxGallery.classList.contains('open')) {
     const categoryData = uiuxCategories[currentCategory];
     if (!categoryData || !categoryData.images || categoryData.images.length === 0) return;
-    
+
     if (e.key === 'ArrowLeft') {
       currentSlideIndex = (currentSlideIndex - 1 + categoryData.images.length) % categoryData.images.length;
       updateSlide();
