@@ -243,7 +243,21 @@ const closeLightbox = () => {
   setTimeout(() => { lightboxImg.src = ''; }, 300);
 };
 
-document.querySelectorAll('.design-card[data-lightbox]').forEach(card => {
+// ── GRAPHIC DESIGN TABS SWITCHER ──
+const tabBtns = document.querySelectorAll('.design-tab-btn');
+const tabContents = document.querySelectorAll('.design-tab-content');
+
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tabName = btn.dataset.tab;
+    tabBtns.forEach(b => b.classList.remove('active'));
+    tabContents.forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(`design-tab-${tabName}`).classList.add('active');
+  });
+});
+
+document.querySelectorAll('.design-card[data-lightbox], .multimedia-card[data-lightbox]').forEach(card => {
   card.style.cursor = 'pointer';
   card.addEventListener('click', () => {
     openLightbox(
@@ -523,7 +537,7 @@ const videoIframeContainer = document.getElementById('videoIframeContainer');
 const openVideoModal = (src, title, sub) => {
   if (!videoModal || !videoIframeContainer) return;
 
-  if (src.endsWith('.mp4') || src.startsWith('assets/')) {
+  if (src.endsWith('.mp4') || src.startsWith('assets/') || src.startsWith('Video_Editing/')) {
     // Local HTML5 video player
     videoIframeContainer.innerHTML = `
       <video src="${src}" controls autoplay playsinline style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; outline: none; border-radius: var(--radius-sm);">
@@ -550,13 +564,30 @@ const closeVideoModal = () => {
   }, 300);
 };
 
-const videoCard = document.getElementById('multimedia-video-card');
-if (videoCard) {
-  videoCard.addEventListener('click', () => {
-    const embedUrl = videoCard.dataset.videoUrl;
-    openVideoModal(embedUrl, 'Video Editing', 'Cinematic cuts & storytelling');
+document.querySelectorAll('.multimedia-card[data-video-url]').forEach(card => {
+  card.style.cursor = 'pointer';
+  card.addEventListener('click', () => {
+    const embedUrl = card.dataset.videoUrl;
+    const title = card.dataset.videoTitle || 'Video Editing';
+    const sub = card.dataset.videoSub || 'Cinematic cuts & storytelling';
+    openVideoModal(embedUrl, title, sub);
   });
-}
+});
+
+// ── AUTOPLAY VIDEO PREVIEW ON HOVER ──
+document.querySelectorAll('.multimedia-card video').forEach(video => {
+  const card = video.closest('.multimedia-card');
+  if (!card) return;
+  
+  card.addEventListener('mouseenter', () => {
+    video.play().catch(err => console.log('Autoplay preview blocked:', err));
+  });
+  
+  card.addEventListener('mouseleave', () => {
+    video.pause();
+    video.currentTime = 0;
+  });
+});
 
 if (videoModalClose) videoModalClose.addEventListener('click', closeVideoModal);
 if (videoModalBackdrop) videoModalBackdrop.addEventListener('click', closeVideoModal);
